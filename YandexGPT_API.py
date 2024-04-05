@@ -39,7 +39,12 @@ class YandexGPTApi:
         }
         return prompt
 
-    def make_request(self, user_message: list) -> dict:
+    def make_request(self,
+                     user_message: list,
+                     stream: bool = False,
+                     temperature: float = 0.6,
+                     max_tokens: int = 100
+                     ) -> str:
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Api-Key {self._api_key}"
@@ -48,9 +53,23 @@ class YandexGPTApi:
         try:
             response = requests.post(self._request_url,
                                      headers=headers,
-                                     json=self._generate_promt(user_message))
+                                     json=self._generate_promt(user_message,
+                                                               stream=stream,
+                                                               temperature=temperature,
+                                                               max_tokens=max_tokens))
         except requests.RequestException as error:
             logger.error(error)
         else:
-            return response.json()
-        return {}
+            return self._get_answer_text(response.json())
+        return ""
+
+    @staticmethod
+    def _get_answer_text(answer) -> str:
+        if answer:
+            try:
+                result = answer["result"]["alternatives"][0]["message"]["text"]
+            except KeyError as error:
+                logger.error(error)
+            else:
+                return result
+        return ""
