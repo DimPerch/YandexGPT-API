@@ -1,12 +1,4 @@
-from YandexGPT_API import YandexGPTApi
-from pprint import pprint
+from YandexGPT_API.client import Client
 
 
-if __name__ == "__main__":
-    gpt = YandexGPTApi(config="config.ini")
-    message = [{
-        "role": "user",
-        "text": "Привет, давай знакомиться"
-    }]
-    answer = gpt.make_request(message)
-    pprint(answer)
+client = Client()
