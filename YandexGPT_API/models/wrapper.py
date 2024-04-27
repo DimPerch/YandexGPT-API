@@ -1,6 +1,6 @@
-class Wrapper:
-    def __init__(self, request_dict: dict) -> None:
-        super().__init__(self, request_dict)
+class Wrapper(dict):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(self, *args, **kwargs)
 
     def __getattr__(self, key: str):
         value = self.get(key)

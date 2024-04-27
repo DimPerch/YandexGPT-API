@@ -8,9 +8,9 @@ class YandexModels(str, Enum):
 
 
 class YandexRole(str, Enum):
-    SYSTEM = "system",
+    SYSTEM = "system"
     ASSISTANT = "assistant"
-    USER = "user",
+    USER = "user"
 
 
 class YandexModeURL(str, Enum):
